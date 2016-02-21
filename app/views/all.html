@@ -1,0 +1,70 @@
+<div class="row">
+	<div class="col-md-3">
+		
+	<div class="searchBar">
+		  <input type="text" class="form-control" placeholder="Search the area..." ng-model="searchProgram">
+	</div>
+
+		
+		<div class="resultsCounter">
+			Showing {{mapData.length}} Organizations
+			
+			<div class="selector">
+				<button ng-click="isShown = !isShown" ng-show="!isShown" class="btn btn-default btn-xs active">Show Raw Data</button>
+				<button ng-click="isShown = !isShown" ng-show="isShown" class="btn btn-default btn-xs active">Show  Map</button>
+			</div>
+			
+		</div>
+	
+		<ul class="list-group sideNav">
+		<a ng-repeat="m in mapData | orderBy:'Program' | filter:searchProgram" class="list-group-item" ng-href="#/program/{{m.organization}}">
+			<div ng-class="m.theme"><b>{{m.organization | uppercase}}</b>
+			</div>{{m.program}}<br>
+			<small>{{m.city}}, {{m.state}}</small><br>
+			<div class="category" ng-class="m.theme"><div class="theme-icon theme-icon-{{m.theme | lowercase}}"><img ng-src="../images/color-icon-{{m.theme | lowercase}}.png" width="17px" height="17px"></div>{{m.theme | uppercase}}</div>
+		</a>
+		</ul>
+	</div>
+	<div ng-include src="'../views/subNav.html'"></div>
+	
+	<div class="col-md-9 mapGrid">
+		<ng-map center={{center}} zoom={{zoom}} style="height:990px;" styles="[{'featureType':'all','elementType':'all','stylers':[{'color':'#c43030'}]},{'featureType':'all','elementType':'geometry','stylers':[{'visibility':'on'}]},{'featureType':'all','elementType':'geometry.fill','stylers':[{'color':'#c0e8e8'},{'visibility':'on'}]},{'featureType':'all','elementType':'geometry.stroke','stylers':[{'color':'#c03434'},{'visibility':'on'}]},{'featureType':'all','elementType':'labels.text.fill','stylers':[{'saturation':36},{'lightness':40},{'color':'#555555'}]},{'featureType':'all','elementType':'labels.text.stroke','stylers':[{'visibility':'on'},{'color':'#ffffff'},{'lightness':16}]},{'featureType':'all','elementType':'labels.icon','stylers':[{'visibility':'off'}]},{'featureType':'administrative','elementType':'geometry.fill','stylers':[{'color':'#e2e2e2'},{'lightness':20}]},{'featureType':'administrative','elementType':'geometry.stroke','stylers':[{'color':'#d8d8d8'},{'lightness':17},{'weight':1.2}]},{'featureType':'administrative.country','elementType':'geometry','stylers':[{'visibility':'simplified'}]},{'featureType':'landscape','elementType':'geometry','stylers':[{'color':'#e9e5dc'},{'lightness':20}]},{'featureType':'landscape.man_made','elementType':'geometry.stroke','stylers':[{'color':'#ffffff'},{'weight':'1.90'},{'gamma':'2.45'},{'visibility':'on'}]},{'featureType':'poi','elementType':'geometry','stylers':[{'color':'#c0e8e8'},{'lightness':21},{'visibility':'on'}]},{'featureType':'poi','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'color':'#c0e8e8'}]},{'featureType':'poi.business','elementType':'geometry.fill','stylers':[{'color':'#c0e8e8'}]},{'featureType':'poi.government','elementType':'geometry.fill','stylers':[{'visibility':'on'},{'color':'#c0e8e8'}]},{'featureType':'poi.medical','elementType':'geometry.fill','stylers':[{'color':'#c0e8e8'}]},{'featureType':'poi.park','elementType':'geometry','stylers':[{'color':'#c0e8e8'},{'lightness':21}]},{'featureType':'poi.place_of_worship','elementType':'geometry.fill','stylers':[{'visibility':'off'}]},{'featureType':'poi.school','elementType':'geometry.fill','stylers':[{'color':'#c0e8e8'}]},{'featureType':'poi.sports_complex','elementType':'geometry.fill','stylers':[{'color':'#c0e8e8'}]},{'featureType':'road.highway','elementType':'geometry.fill','stylers':[{'color':'#ffffff'},{'lightness':17}]},{'featureType':'road.highway','elementType':'geometry.stroke','stylers':[{'color':'#ffffff'},{'lightness':29},{'weight':0.2}]},{'featureType':'road.arterial','elementType':'geometry','stylers':[{'color':'#ffffff'},{'lightness':18}]},{'featureType':'road.local','elementType':'geometry','stylers':[{'color':'#ffffff'},{'lightness':16}]},{'featureType':'transit','elementType':'geometry','stylers':[{'color':'#f2f2f2'},{'lightness':19}]},{'featureType':'water','elementType':'geometry','stylers':[{'lightness':17},{'color':'#7dcdcd'}]}]" ng-show="!isShown">
+		
+			<marker position="{{m.geolocation}}" ng-repeat="m in mapData | filter:searchProgram" icon="{url:'/images/marker-primary-{{m.theme | lowercase}}.png'}" options="options">
+		
+			</marker>
+	
+
+		  </ng-map>
+		  
+		  <div ng-show="isShown" class="json">
+			  <center><h3>Raw JSON Array</h3></center>
+			  <small>{{mapData}}</small>
+		  </div>
+	</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="getPoints()"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Angular Map Demo</h4>
+      </div>
+      <div class="modal-body">
+        Welcome to the Angular Map Demo you can filter through the map points by typing the program name in the search bar or clicking one of the themes in the navigation menu. The data is being populated by a RESTful service on a free webserver so initial loading may take a few seconds.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="getPoints()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(window).load(function(){
+        $('#myModal').modal('show');
+    });
+</script>

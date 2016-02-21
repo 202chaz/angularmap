@@ -20,17 +20,37 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
+      .when('/all', {
+        templateUrl: 'views/all.html',
+        controller: 'AllCtrl',
+        controllerAs: 'all'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/education', {
+        templateUrl: 'views/education.html',
+        controller: 'EducationCtrl',
+        controllerAs: 'education'
+      })
+      .when('/community', {
+        templateUrl: 'views/community.html',
+        controller: 'CommunityCtrl',
+        controllerAs: 'community'
+      })
+      .when('/environment', {
+        templateUrl: 'views/community.html',
+        controller: 'EnvironmentCtrl',
+        controllerAs: 'environment'
+      })
+      .when('/diversity', {
+        templateUrl: 'views/community.html',
+        controller: 'DiversityCtrl',
+        controllerAs: 'diversity'
+      })
+      .when('/program/:organization', {
+        templateUrl: 'views/program.html',
+        controller: 'ProgramCtrl',
+        controllerAs: 'program'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/all'
       });
   });

@@ -1,0 +1,5 @@
+<div class="col-md-9 subMenu shadow" ng-controller="CategoryCtrl">
+	<ul align="center">
+		<li ng-repeat="c in categories"><a ng-href="{{c.link}}" ng-class="c.id" ng-init="allPoints()"><div class="subTitle"><img ng-src="../images/icon-{{c.name| lowercase}}.png" width="20px" height="20px"></div>{{c.name | uppercase}}</a></li>
+	</ul>
+</div>
